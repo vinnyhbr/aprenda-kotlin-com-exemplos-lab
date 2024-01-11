@@ -44,8 +44,8 @@ data class Formacao(val nome: String, var conteudos: MutableList<ConteudoEducaci
 }
 
 fun main() {
-    val usuario1 = Usuario("João")
-    val usuario2 = Usuario("Maria")
+    val usuario1 = Usuario("John")
+    val usuario2 = Usuario("Beatriz")
 
     val formacao = Formacao("Curso Kotlin", mutableListOf(ConteudoEducacional("Introdução ao Kotlin")))
 
