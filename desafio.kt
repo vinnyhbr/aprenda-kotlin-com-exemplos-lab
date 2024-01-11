@@ -2,20 +2,61 @@
 
 enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
 
-class Usuario
+class Usuario(val nome: String)
 
 data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class Formacao(val nome: String, var conteudos: MutableList<ConteudoEducacional>) {
 
     val inscritos = mutableListOf<Usuario>()
-    
+
     fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+        if (!inscritos.contains(usuario)) {
+            inscritos.add(usuario)
+            println("Matrícula realizada com sucesso para ${usuario.nome}.")
+        } else {
+            println("O usuário ${usuario.nome} já está matriculado nesta formação.")
+        }
+    }
+
+    fun adicionarConteudo(conteudo: ConteudoEducacional) {
+        conteudos.add(conteudo)
+        println("Conteúdo '${conteudo.nome}' adicionado à formação.")
+    }
+
+    fun removerConteudo(nomeConteudo: String) {
+        val conteudoRemovido = conteudos.removeIf { it.nome == nomeConteudo }
+        if (conteudoRemovido) {
+            println("Conteúdo '$nomeConteudo' removido da formação.")
+        } else {
+            println("Conteúdo '$nomeConteudo' não encontrado na formação.")
+        }
+    }
+
+    fun removerInscrito(usuario: Usuario) {
+        val removido = inscritos.remove(usuario)
+        if (removido) {
+            println("Usuário ${usuario.nome} removido da formação.")
+        } else {
+            println("Usuário ${usuario.nome} não encontrado na lista de inscritos.")
+        }
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    val usuario1 = Usuario("João")
+    val usuario2 = Usuario("Maria")
+
+    val formacao = Formacao("Curso Kotlin", mutableListOf(ConteudoEducacional("Introdução ao Kotlin")))
+
+    formacao.matricular(usuario1)
+    formacao.matricular(usuario2)
+
+    formacao.adicionarConteudo(ConteudoEducacional("Programação Orientada a Objetos", 90))
+    formacao.removerConteudo("Introdução ao Kotlin")
+
+    formacao.removerInscrito(usuario1)
+    formacao.removerInscrito(usuario2)
+
+    formacao.matricular(usuario1)  // Tentando matricular o mesmo usuário novamente
 }
